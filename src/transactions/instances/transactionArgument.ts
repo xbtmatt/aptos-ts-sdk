@@ -18,8 +18,8 @@ export interface EntryFunctionArgument {
    */
   serializeForEntryFunction(serializer: Serializer): void;
   /**
-   * Serialize an argument to JSON-serializable values. This is primarily for facilitating
-   * transport between dapps and wallet extensions, since they
+   * Serialize an argument to a JSON-serializable value. This is primarily for facilitating
+   * transport between dapps and wallet extensions, since they use JSON serialization.
    */
   toJSON(): JSONSerializableArguments;
   bcsToBytes(): Uint8Array;
@@ -38,8 +38,8 @@ export interface ScriptFunctionArgument {
    */
   serializeForScriptFunction(serializer: Serializer): void;
   /**
-   * Serialize an argument to JSON-serializable values. This is primarily for facilitating
-   * transport between dapps and wallet extensions, since they
+   * Serialize an argument to a JSON-serializable value. This is primarily for facilitating
+   * transport between dapps and wallet extensions, since they use JSON serialization.
    */
   toJSON(): JSONSerializableArguments;
   bcsToBytes(): Uint8Array;
