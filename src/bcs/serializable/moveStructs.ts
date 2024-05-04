@@ -4,7 +4,7 @@
 import { Bool, U128, U16, U256, U32, U64, U8 } from "./movePrimitives";
 import { Serializable, Serializer } from "../serializer";
 import { Deserializable, Deserializer } from "../deserializer";
-import { AnyNumber, HexInput, ScriptTransactionArgumentVariants } from "../../types";
+import { AnyNumber, HexInput, JSONSerializableArguments, ScriptTransactionArgumentVariants } from "../../types";
 import { Hex } from "../../core/hex";
 import { EntryFunctionArgument, TransactionArgument } from "../../transactions/instances/transactionArgument";
 
@@ -60,6 +60,10 @@ export class MoveVector<T extends Serializable & EntryFunctionArgument>
   serializeForEntryFunction(serializer: Serializer): void {
     const bcsBytes = this.bcsToBytes();
     serializer.serializeBytes(bcsBytes);
+  }
+
+  toJSON(): Array<JSONSerializableArguments> {
+    return this.values.map((v) => v.toJSON());
   }
 
   /**
@@ -247,6 +251,10 @@ export class MoveString extends Serializable implements TransactionArgument {
     vectorU8.serializeForScriptFunction(serializer);
   }
 
+  toJSON(): string {
+    return this.value;
+  }
+
   static deserialize(deserializer: Deserializer): MoveString {
     return new MoveString(deserializer.deserializeStr());
   }
@@ -276,6 +284,13 @@ export class MoveOption<T extends Serializable & EntryFunctionArgument>
     serializer.serializeBytes(bcsBytes);
   }
 
+  toJSON(): [] | [JSONSerializableArguments] {
+    if (this.isSome()) {
+      return [this.value.toJSON()];
+    }
+    return [];
+  }
+
   /**
    * Retrieves the inner value of the MoveOption.
    *
@@ -301,7 +316,7 @@ export class MoveOption<T extends Serializable & EntryFunctionArgument>
   }
 
   // Check if the MoveOption has a value.
-  isSome(): boolean {
+  isSome(): this is { value: NonNullable<T> } {
     return this.vec.values.length === 1;
   }
 

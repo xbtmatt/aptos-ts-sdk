@@ -3,6 +3,7 @@
 
 import { Serializer } from "../../bcs/serializer";
 import { Hex } from "../../core/hex";
+import { JSONSerializableArguments } from "../../types";
 
 export interface TransactionArgument extends EntryFunctionArgument, ScriptFunctionArgument {}
 
@@ -16,10 +17,15 @@ export interface EntryFunctionArgument {
    * the number of the following bytes followed by the BCS-serialized bytes for a typed argument.
    */
   serializeForEntryFunction(serializer: Serializer): void;
-
+  /**
+   * Serialize an argument to JSON-serializable values. This is primarily for facilitating
+   * transport between dapps and wallet extensions, since they
+   */
+  toJSON(): JSONSerializableArguments;
   bcsToBytes(): Uint8Array;
   bcsToHex(): Hex;
 }
+
 export interface ScriptFunctionArgument {
   /**
    * Serialize an argument to BCS-serialized bytes.
@@ -31,7 +37,11 @@ export interface ScriptFunctionArgument {
    * bytes for a typed argument.
    */
   serializeForScriptFunction(serializer: Serializer): void;
-
+  /**
+   * Serialize an argument to JSON-serializable values. This is primarily for facilitating
+   * transport between dapps and wallet extensions, since they
+   */
+  toJSON(): JSONSerializableArguments;
   bcsToBytes(): Uint8Array;
   bcsToHex(): Hex;
 }

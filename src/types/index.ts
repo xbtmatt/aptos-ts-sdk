@@ -127,6 +127,11 @@ export type Uint256 = bigint;
 export type AnyNumber = number | bigint;
 
 /**
+ * BCS Types as JSON serializable types
+ */
+export type JSONSerializableArguments = boolean | string | number | Array<JSONSerializableArguments>;
+
+/**
  * Set of configuration options that can be provided when initializing the SDK.
  * The purpose of these options is to configure various aspects of the SDK's
  * behavior and interaction with the Aptos network

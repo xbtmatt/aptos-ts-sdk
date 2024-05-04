@@ -197,6 +197,10 @@ export class AccountAddress extends Serializable implements TransactionArgument 
     serializer.serialize(this);
   }
 
+  toJSON(): string {
+    return this.toString();
+  }
+
   /**
    * Deserialize an AccountAddress from the byte buffer in a Deserializer instance.
    * @param deserializer The deserializer to deserialize the AccountAddress from.

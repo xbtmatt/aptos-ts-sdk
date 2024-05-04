@@ -58,6 +58,10 @@ export class FixedBytes extends Serializable implements TransactionArgument {
     serializer.serialize(this);
   }
 
+  toJSON(): Array<number> {
+    return Array.from(this.value);
+  }
+
   static deserialize(deserializer: Deserializer, length: number): FixedBytes {
     const bytes = deserializer.deserializeFixedBytes(length);
     return new FixedBytes(bytes);
